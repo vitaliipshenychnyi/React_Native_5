@@ -6,16 +6,94 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  // SafeAreaView,
   Platform,
 } from 'react-native';
 import { Text } from 'react-native';
 import { globalStyles } from '../globalStyles';
 import { Image } from 'react-native';
-import { Camera, Location, Trash } from '../components/icons/Icons';
-import { useState } from 'react';
+import { CameraIcon, LocationIcon, Trash } from '../components/icons/Icons';
+import { useState, useEffect } from 'react';
+import { Camera } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { addPost } from '../redux/postSlice';
+import * as Location from 'expo-location';
 
 export const CreatePostsScreen = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const [photoName, setPhotoName] = useState('');
+  const [locationName, setLocationName] = useState('');
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [hasMediaPermission, setHasMediaPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [photoUri, setPhotoUri] = useState(null);
+  const [location, setLocation] = useState(null);
   const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
+      const mediaPermission = await MediaLibrary.requestPermissionsAsync();
+
+      setHasCameraPermission(cameraPermission.status === 'granted');
+      setHasMediaPermission(mediaPermission.status === 'granted');
+    })();
+  }, []);
+
+  const handlePublishPost = () => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+
+      setLocation(coords);
+      console.log(coords);
+    })();
+
+    dispatch(addPost({ photoName, locationName, photoUri, location }));
+    navigation.navigate('Home', { screen: 'Posts' });
+
+    setPhotoName('');
+    setLocationName('');
+    setPhotoUri(null);
+  };
+
+  const takePicture = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync();
+
+      setPhotoUri(uri);
+      await MediaLibrary.createAssetAsync(uri);
+    }
+  };
+
+  if (hasCameraPermission === null) {
+    return (
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Text>Loading ...</Text>
+      </View>
+    );
+  }
+
+  if (!hasCameraPermission) {
+    return (
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Text>No access to camera</Text>
+      </View>
+    );
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -38,22 +116,35 @@ export const CreatePostsScreen = () => {
           ]}
         >
           <View>
-            <View style={styles.photoWrapper}>
-              <View
-                style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: 30,
-                  backgroundColor: 'white',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
+            {!photoUri ? (
+              <Camera
+                style={styles.photoWrapper}
+                type={type}
+                ref={setCameraRef}
               >
-                <Camera />
+                <TouchableOpacity onPress={takePicture}>
+                  <View
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: 30,
+                      backgroundColor: 'white',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                    }}
+                  >
+                    <CameraIcon />
+                  </View>
+                </TouchableOpacity>
+              </Camera>
+            ) : (
+              <View style={styles.photoWrapper}>
+                <Image source={{ uri: photoUri }} style={styles.photo} />
               </View>
-              <Image />
-            </View>
+            )}
+
             <Text style={styles.text}>Завантажте фото</Text>
+
             <View>
               <TextInput
                 style={[
@@ -63,6 +154,8 @@ export const CreatePostsScreen = () => {
                 placeholder="Назва..."
                 onFocus={() => setIsOpenKeyboard(true)}
                 onBlur={() => setIsOpenKeyboard(false)}
+                value={photoName}
+                onChangeText={setPhotoName}
               />
 
               <View
@@ -77,7 +170,7 @@ export const CreatePostsScreen = () => {
                   marginBottom: 32,
                 }}
               >
-                <Location />
+                <LocationIcon />
                 <TextInput
                   style={[
                     styles.input,
@@ -91,15 +184,26 @@ export const CreatePostsScreen = () => {
                   placeholder="Місцевість..."
                   onFocus={() => setIsOpenKeyboard(true)}
                   onBlur={() => setIsOpenKeyboard(false)}
+                  value={locationName}
+                  onChangeText={setLocationName}
                 />
               </View>
             </View>
-            <TouchableOpacity style={globalStyles.button}>
+
+            <TouchableOpacity
+              style={globalStyles.button}
+              onPress={handlePublishPost}
+            >
               <Text style={globalStyles.buttonText}>Опубліковати</Text>
             </TouchableOpacity>
           </View>
+
           <View style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setPhotoUri(null);
+            }}
+          >
             <View
               style={{
                 width: 70,
@@ -144,5 +248,10 @@ const styles = StyleSheet.create({
     borderColor: '#E8E8E8',
     fontSize: 16,
     marginBottom: 16,
+  },
+  photo: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
 });
