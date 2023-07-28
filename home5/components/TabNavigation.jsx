@@ -2,11 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { CreatePostsScreen } from '../screens/CreatePostsScreen';
 import { PostsScreen } from '../screens/PostsScreen';
-import { PlusIcon, UserIcon, GridIcon } from '../components/icons/Icons';
+import { UserIcon, PlusIcon, GridIcon } from './icons/Icons';
 import { StyleSheet, View } from 'react-native';
 import { HeaderLogoutButton } from './HeaderLogoutButton';
 import { BackButton } from './BackButton';
-import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
 const TabNavigation = () => {

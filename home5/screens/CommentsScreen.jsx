@@ -8,7 +8,6 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import { Text } from 'react-native';
 import { globalStyles } from '../globalStyles';
 import Comment from '../components/Comment';
 import { ArrowUp } from '../components/icons/Icons';

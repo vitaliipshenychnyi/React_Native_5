@@ -2,11 +2,8 @@ import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { Comments, LocationIcon } from '../components/icons/Icons';
 import { useNavigation } from '@react-navigation/native';
-import * as Location from 'expo-location';
-import { useState } from 'react';
 
 const Post = ({ way, name, country, commentsNumber, coords }) => {
-  const [location, setLocation] = useState(null);
   const navigation = useNavigation();
 
   return (
@@ -40,7 +37,14 @@ const Post = ({ way, name, country, commentsNumber, coords }) => {
               <Comments />
             </Text>
           </TouchableOpacity>
-          <Text style={[styles.text, { color: '#BDBDBD' }]}>
+          <Text
+            style={[
+              styles.text,
+              {
+                color: '#BDBDBD',
+              },
+            ]}
+          >
             {commentsNumber}
           </Text>
         </View>

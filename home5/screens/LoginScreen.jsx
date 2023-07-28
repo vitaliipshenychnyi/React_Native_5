@@ -28,7 +28,6 @@ export const Login = () => {
     setSecureTextEntry(!secureTextEntry);
     navigation.navigate('Home');
   };
-  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={globalStyles.container}>
@@ -86,7 +85,7 @@ export const Login = () => {
                       { color: '#1B4371', textAlign: 'center' },
                     ]}
                   >
-                    Немає акаунту? Зареєструватися
+                    Вже є акаунт? Увійти
                   </Text>
                 </TouchableOpacity>
               </View>

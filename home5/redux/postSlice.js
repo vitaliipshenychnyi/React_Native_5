@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
 
-const postsInitialState = { posts: [] };
-
+const postsInitialState = {
+  posts: [],
+};
 export const postsSlice = createSlice({
   name: 'posts',
   initialState: postsInitialState,

@@ -1,7 +1,7 @@
-import { TouchableOpacity } from 'react-native';
-import * as React from 'react';
-import { ArrowLeft } from '../components/icons/Icons';
-import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from "react-native";
+import * as React from "react";
+import { ArrowLeft } from "./icons/Icons";
+import { useNavigation } from "@react-navigation/native";
 
 export const BackButton = () => {
   const navigator = useNavigation();

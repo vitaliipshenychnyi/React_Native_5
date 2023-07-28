@@ -6,14 +6,13 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  // SafeAreaView,
   Platform,
 } from 'react-native';
 import { Text } from 'react-native';
 import { globalStyles } from '../globalStyles';
 import { Image } from 'react-native';
 import { CameraIcon, LocationIcon, Trash } from '../components/icons/Icons';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useNavigation } from '@react-navigation/native';
@@ -26,32 +25,26 @@ export const CreatePostsScreen = () => {
   const navigation = useNavigation();
   const [photoName, setPhotoName] = useState('');
   const [locationName, setLocationName] = useState('');
+  const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [hasMediaPermission, setHasMediaPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [photoUri, setPhotoUri] = useState(null);
   const [location, setLocation] = useState(null);
-  const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
 
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaPermission = await MediaLibrary.requestPermissionsAsync();
-
       setHasCameraPermission(cameraPermission.status === 'granted');
-      setHasMediaPermission(mediaPermission.status === 'granted');
     })();
   }, []);
 
   const handlePublishPost = () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-
       if (status !== 'granted') {
         console.log('Permission to access location was denied');
       }
-
       let location = await Location.getCurrentPositionAsync({});
       const coords = {
         latitude: location.coords.latitude,
@@ -61,40 +54,33 @@ export const CreatePostsScreen = () => {
       setLocation(coords);
       console.log(coords);
     })();
-
     dispatch(addPost({ photoName, locationName, photoUri, location }));
     navigation.navigate('Home', { screen: 'Posts' });
-
     setPhotoName('');
     setLocationName('');
     setPhotoUri(null);
   };
-
   const takePicture = async () => {
     if (cameraRef) {
       const { uri } = await cameraRef.takePictureAsync();
-
       setPhotoUri(uri);
       await MediaLibrary.createAssetAsync(uri);
     }
   };
-
   if (hasCameraPermission === null) {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <Text>Loading ...</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
-
   if (!hasCameraPermission) {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <Text>No access to camera</Text>
+        <Text>No access to camera.</Text>
       </View>
     );
   }
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
@@ -130,21 +116,20 @@ export const CreatePostsScreen = () => {
                       borderRadius: 30,
                       backgroundColor: 'white',
                       justifyContent: 'center',
-                      alignContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
                     <CameraIcon />
                   </View>
                 </TouchableOpacity>
+                <Image />
               </Camera>
             ) : (
               <View style={styles.photoWrapper}>
                 <Image source={{ uri: photoUri }} style={styles.photo} />
               </View>
             )}
-
             <Text style={styles.text}>Завантажте фото</Text>
-
             <View>
               <TextInput
                 style={[
@@ -189,7 +174,6 @@ export const CreatePostsScreen = () => {
                 />
               </View>
             </View>
-
             <TouchableOpacity
               style={globalStyles.button}
               onPress={handlePublishPost}
@@ -197,7 +181,6 @@ export const CreatePostsScreen = () => {
               <Text style={globalStyles.buttonText}>Опубліковати</Text>
             </TouchableOpacity>
           </View>
-
           <View style={{ flex: 1 }} />
           <TouchableOpacity
             onPress={() => {

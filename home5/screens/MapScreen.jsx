@@ -17,7 +17,7 @@ export const MapScreen = ({ route }) => {
         mapType="standard"
       >
         {coords && (
-          <Marker title="I am here" coordinate={coords} description="Hellow" />
+          <Marker title="I am here" coordinate={coords} description="Hello" />
         )}
       </MapView>
     </View>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignContent: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   mapStyle: {

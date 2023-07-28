@@ -1,19 +1,13 @@
-import { Image, View, Text } from 'react-native';
+import { Image, View,Text } from "react-native";
 
-const Comment = ({
-  img,
-  direction = 'row',
-  text,
-  textAlign = 'right',
-  date,
-}) => {
+const Comment = ({ img, direction = "row", text, textAlign = "right", date }) => {
   return (
     <View style={{ flexDirection: direction, gap: 16, marginBottom: 24 }}>
       <Image source={img} />
       <View
         style={{
-          width: '100%',
-          backgroundColor: '#00000008',
+            width:'100%',
+          backgroundColor: "#00000008",
           borderTopLeftRadius: 0,
           borderTopRightRadius: 6,
           borderBottomLeftRadius: 6,
@@ -24,10 +18,10 @@ const Comment = ({
       >
         <Text
           style={{
-            fontFamily: 'Roboto-Regular',
+            fontFamily: "Roboto-Regular",
             fontSize: 13,
             lineHeight: 18,
-            color: '#212121',
+            color: "#212121",
             marginBottom: 8,
           }}
         >
@@ -35,11 +29,11 @@ const Comment = ({
         </Text>
         <Text
           style={{
-            fontFamily: 'Roboto-Regular',
+            fontFamily: "Roboto-Regular",
             fontSize: 10,
             lineHeight: 11.72,
             textAlign: textAlign,
-            color: '#BDBDBD',
+            color: "#BDBDBD",
           }}
         >
           {date}

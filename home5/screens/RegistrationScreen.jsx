@@ -31,7 +31,6 @@ export const Registration = () => {
     console.log({ login, email, password });
     navigation.navigate('Home');
   };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={globalStyles.container}>
@@ -76,9 +75,9 @@ export const Registration = () => {
                     placeholder="Пароль"
                     textContentType="password"
                     secureTextEntry={secureTextEntry}
+                    onChangeText={setPassword}
                     onFocus={() => setIsOpenKeyboard(true)}
                     onBlur={() => setIsOpenKeyboard(false)}
-                    onChangeText={setPassword}
                     value={password}
                   />
                   <TouchableOpacity
@@ -88,6 +87,7 @@ export const Registration = () => {
                     <Text>{secureTextEntry ? 'Показати' : 'Сховати'}</Text>
                   </TouchableOpacity>
                 </View>
+
                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                   <Text style={[styles.commonTextParams, styles.buttonText]}>
                     Зареєстуватися

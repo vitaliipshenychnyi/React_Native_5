@@ -11,8 +11,6 @@ import { MapScreen } from './screens/MapScreen';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 
-import React from 'react';
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
@@ -21,8 +19,8 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  const MainStack = createStackNavigator();
 
+  const MainStack = createStackNavigator();
   return (
     <Provider store={store}>
       <NavigationContainer>

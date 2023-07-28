@@ -1,14 +1,13 @@
-import { Image, Text, FlatList } from 'react-native';
+import { FlatList, Image, Text } from 'react-native';
 import { View, ScrollView } from 'react-native';
 import { globalStyles } from '../globalStyles';
 import Post from '../components/Post';
 import { useSelector } from 'react-redux';
-import { selectPost } from '../redux/selectors';
+import { selectPosts } from '../redux/selectors';
 
 export const PostsScreen = () => {
-  const posts = useSelector(selectPost);
+  const posts = useSelector(selectPosts);
   console.log(posts);
-
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View
