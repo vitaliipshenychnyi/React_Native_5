@@ -1,13 +1,17 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { Registration } from './screens/RegistrationScreen';
 import { Login } from './screens/LoginScreen';
 import { useFonts } from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Home } from './screens/HomeScreen';
 import { BackButton } from './components/BackButton';
 import { CommentsScreen } from './screens/CommentsScreen';
+import { MapScreen } from './screens/MapScreen';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+
+import React from 'react';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,44 +22,58 @@ export default function App() {
     return null;
   }
   const MainStack = createStackNavigator();
-  
+
   return (
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Registration">
-        <MainStack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <MainStack.Screen
-          name="Registration"
-          component={Registration}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <MainStack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <MainStack.Screen
-          name="Comments"
-          component={CommentsScreen}
-          options={{
-            title: 'Коментарі',
-            headerShown: true,
-            headerLeft: () => <BackButton />,
-            headerStyle: {
-              borderBottomWidth: 1,
-            },
-          }}
-        />
-      </MainStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainStack.Navigator initialRouteName="Home">
+          <MainStack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <MainStack.Screen
+            name="Registration"
+            component={Registration}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <MainStack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <MainStack.Screen
+            name="Comments"
+            component={CommentsScreen}
+            options={{
+              title: 'Коментарі',
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerStyle: {
+                borderBottomWidth: 1,
+              },
+            }}
+          />
+          <MainStack.Screen
+            name="Map"
+            component={MapScreen}
+            options={{
+              title: 'Мапа',
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerStyle: {
+                borderBottomWidth: 1,
+              },
+            }}
+          />
+        </MainStack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

@@ -1,11 +1,16 @@
-import { Image, Text } from 'react-native';
+import { Image, Text, FlatList } from 'react-native';
 import { View, ScrollView } from 'react-native';
 import { globalStyles } from '../globalStyles';
 import Post from '../components/Post';
+import { useSelector } from 'react-redux';
+import { selectPost } from '../redux/selectors';
 
 export const PostsScreen = () => {
+  const posts = useSelector(selectPost);
+  console.log(posts);
+
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View
         style={[
           globalStyles.container,
@@ -50,24 +55,19 @@ export const PostsScreen = () => {
             </Text>
           </View>
         </View>
-        <Post
-          way={require('../assets/images/sky.jpg')}
-          name={'Ліс'}
-          commentsNumber={0}
-          country={"Ivano-Frankivs'k Region, Ukraine"}
-        />
-        <Post
-          way={require('../assets/images/sunset.jpg')}
-          name={'Захід на Чорному морі'}
-          commentsNumber={0}
-          country={'Ukraine'}
-        />
-        <Post
-          way={require('../assets/images/house.jpg')}
-          name={'Захід на Чорному морі'}
-          commentsNumber={0}
-          country={'Ukraine'}
-        />
+        <FlatList
+          data={posts}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <Post
+              way={item.imageUrl}
+              name={item.name}
+              commentsNumber={item.commentsNumber}
+              country={item.location}
+              coords={item.coords}
+            />
+          )}
+        ></FlatList>
       </View>
     </ScrollView>
   );
