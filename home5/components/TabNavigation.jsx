@@ -6,6 +6,7 @@ import { PlusIcon, UserIcon, GridIcon } from '../components/icons/Icons';
 import { StyleSheet, View } from 'react-native';
 import { HeaderLogoutButton } from './HeaderLogoutButton';
 import { BackButton } from './BackButton';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
 const TabNavigation = () => {

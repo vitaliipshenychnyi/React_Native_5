@@ -91,7 +91,7 @@ export function ArrowLeft(props) {
   );
 }
 
-export function Camera(props) {
+export function CameraIcon(props) {
   return (
     <Svg
       width={24}
@@ -114,7 +114,7 @@ export function Camera(props) {
   );
 }
 
-export function Location(props) {
+export function LocationIcon(props) {
   return (
     <Svg
       width={24}
