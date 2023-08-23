@@ -1,11 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import uuid from 'react-native-uuid';
 
 const postsInitialState = {
-  posts: [],
-};
+    posts: [
+//   {
+//     id: uuid.v4(),
+//     imageUrl: "../assets/images/sky.jpg",
+//     name: "Ліс",
+//     commentsNumber: 0,
+//     location: "Ivano-Frankivs'k Region, Ukraine",
+//   },
+//   {
+//     id: uuid.v4(),
+//     imageUrl: "../assets/images/sunset.jpg",
+//     name: "Захід на Чорному морі",
+//     commentsNumber: 0,
+//     location: "Ukraine",
+//   },
+//   {
+//     id: uuid.v4(),
+//     imageUrl: "../assets/images/house.jpg",
+//     name: "Старий будиночок у Венеції",
+//     commentsNumber: 0,
+//     location: "Ukraine",
+//   },
+]};
 export const postsSlice = createSlice({
-  name: 'posts',
+  name: "posts",
   initialState: postsInitialState,
   reducers: {
     addPost: {
@@ -35,4 +56,4 @@ export const postsSlice = createSlice({
 });
 
 export const { addPost } = postsSlice.actions;
-export const postsReducer = postsSlice.reducer;
+export const postsReducer = postsSlice.reducer

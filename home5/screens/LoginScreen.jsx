@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,41 +7,46 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
-  Platform,
-} from 'react-native';
-import { globalStyles } from '../globalStyles';
-import { useNavigation } from '@react-navigation/native';
-import { TouchableWithoutFeedback } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { BackgroundComponent } from '../components/BackgroundComponent';
+  ImageBackground,
+} from "react-native";
+import { globalStyles } from "../globalStyles";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { BackgroundComponent } from "../components/BackgroundComponent";
 
 export const Login = () => {
   const navigation = useNavigation();
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
-  const handleSubmit = evt => {
+  const handleSubmit = (evt) => {
     console.log({ email, password });
   };
   const togglePassword = () => {
     setSecureTextEntry(!secureTextEntry);
-    navigation.navigate('Home');
+    navigation.navigate('Home')
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={globalStyles.container}>
         <BackgroundComponent>
+          {/* <ImageBackground
+          source={require("../assets/images/Photo-BG.jpg")}
+          resizeMode="cover"
+          style={globalStyles.image}
+        > */}
           <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
           >
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <View style={{ flex: 1, justifyContent: "flex-end" }}>
               <View
                 style={{
                   ...styles.formWrapper,
                   paddingBottom: isOpenKeyboard ? 10 : 111,
-                  height: isOpenKeyboard ? 250 : 'auto',
+                  height: isOpenKeyboard ? 250 : "auto",
                 }}
               >
                 <Text style={styles.title}>Увійти</Text>
@@ -65,10 +70,10 @@ export const Login = () => {
                     value={password}
                   />
                   <TouchableOpacity
-                    style={{ position: 'absolute', top: 16, right: 16 }}
+                    style={{ position: "absolute", top: 16, right: 16 }}
                     onPress={togglePassword}
                   >
-                    <Text>{secureTextEntry ? 'Показати' : 'Сховати'}</Text>
+                    <Text>{secureTextEntry ? "Показати" : "Сховати"}</Text>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -77,12 +82,12 @@ export const Login = () => {
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Registration')}
+                  onPress={() => navigation.navigate("Registration")}
                 >
                   <Text
                     style={[
                       styles.commonTextParams,
-                      { color: '#1B4371', textAlign: 'center' },
+                      { color: "#1B4371", textAlign: "center" },
                     ]}
                   >
                     Вже є акаунт? Увійти
@@ -92,6 +97,7 @@ export const Login = () => {
             </View>
           </KeyboardAvoidingView>
         </BackgroundComponent>
+        {/* </ImageBackground> */}
         <StatusBar style="auto" />
       </View>
     </TouchableWithoutFeedback>
@@ -99,11 +105,11 @@ export const Login = () => {
 };
 const styles = StyleSheet.create({
   title: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: "Roboto-Medium",
     fontSize: 30,
     fontWeight: 500,
     lineHeight: 35.16,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 33,
   },
   formWrapper: {
@@ -111,9 +117,10 @@ const styles = StyleSheet.create({
     paddingBottom: 111,
     paddingLeft: 16,
     paddingRight: 16,
-    backgroundColor: 'white',
-    width: '100%',
-    position: 'absolute',
+    backgroundColor: "white",
+    width: "100%",
+    // height: 489,
+    position: "absolute",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderBottomLeftRadius: 0,
@@ -121,12 +128,12 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#E8E8E8',
-    width: '100%',
+    borderColor: "#E8E8E8",
+    width: "100%",
     height: 50,
     marginBottom: 16,
-    backgroundColor: '#F6F6F6',
-    borderStyle: 'solid',
+    backgroundColor: "#F6F6F6",
+    borderStyle: "solid",
     borderRadius: 10,
     paddingLeft: 16,
     paddingRight: 16,
@@ -138,37 +145,38 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     marginTop: 27,
     marginBottom: 16,
-    backgroundColor: '#FF6C00',
+    backgroundColor: "#FF6C00",
     borderRadius: 100,
   },
   buttonText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
   },
   commonTextParams: {
-    fontFamily: 'Roboto-Regular',
+    fontFamily: "Roboto-Regular",
+    // fontWeight: 400,
     fontSize: 16,
     lineHeight: 18.75,
   },
   photoWrapper: {
     width: 120,
     height: 120,
-    position: 'absolute',
-    backgroundColor: '#F6F6F6',
+    position: "absolute",
+    backgroundColor: "#F6F6F6",
     borderRadius: 16,
     top: -60,
-    left: '50%',
+    left: "50%",
     transform: [{ translateX: -50 }],
   },
   addPhotoButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 25,
     height: 25,
-    borderColor: '#FF6C00',
+    borderColor: "#FF6C00",
     borderRadius: 12.5,
     borderWidth: 1,
-    position: 'absolute',
+    position: "absolute",
     top: 81,
     right: -12.5,
   },

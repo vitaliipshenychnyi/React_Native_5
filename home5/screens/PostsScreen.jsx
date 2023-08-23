@@ -1,41 +1,42 @@
-import { FlatList, Image, Text } from 'react-native';
-import { View, ScrollView } from 'react-native';
-import { globalStyles } from '../globalStyles';
-import Post from '../components/Post';
-import { useSelector } from 'react-redux';
-import { selectPosts } from '../redux/selectors';
+import { FlatList, Image, SafeAreaView, StyleSheet, Text } from "react-native";
+// import TabNavigation, { FocusedIcon } from "../components/TabNavigation";
+import { View, ScrollView } from "react-native";
+import { globalStyles } from "../globalStyles";
+import Post from "../components/Post";
+import { useSelector } from "react-redux";
+import { selectPosts } from "../redux/selectors";
 
 export const PostsScreen = () => {
   const posts = useSelector(selectPosts);
   console.log(posts);
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <ScrollView style={{ flex: 1,backgroundColor:'#fff' }}>
       <View
         style={[
           globalStyles.container,
           {
-            flexDirection: 'column',
+            flexDirection: "column",
             paddingLeft: 16,
             paddingRight: 16,
             paddingTop: 32,
           },
         ]}
       >
-        <View style={{ gap: 8, flexDirection: 'row', marginBottom: 32 }}>
+        <View style={{ gap: 8, flexDirection: "row", marginBottom: 32 }}>
           <View
             style={{
               width: 60,
               height: 60,
-              backgroundColor: '#F6F6F6',
+              backgroundColor: "#F6F6F6",
               borderRadius: 16,
             }}
           >
-            <Image source={require('../assets/images/user.png')} />
+            <Image source={require("../assets/images/user.png")} />
           </View>
           <View style={{ marginTop: 16 }}>
             <Text
               style={{
-                fontFamily: 'Roboto-Medium',
+                fontFamily: "Roboto-Medium",
                 lineHeight: 15.23,
                 fontSize: 13,
               }}
@@ -44,21 +45,23 @@ export const PostsScreen = () => {
             </Text>
             <Text
               style={{
-                fontFamily: 'Roboto-Regular',
+                fontFamily: "Roboto-Regular",
                 lineHeight: 12.89,
                 fontSize: 11,
-                color: '#212121CC',
+                color: "#212121CC",
               }}
             >
               email@example.com
             </Text>
           </View>
         </View>
+        {/* <SafeAreaView style={{ flex: 1 }}> */}
         <FlatList
           data={posts}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Post
+              // key={item.key}
               way={item.imageUrl}
               name={item.name}
               commentsNumber={item.commentsNumber}
@@ -67,6 +70,26 @@ export const PostsScreen = () => {
             />
           )}
         ></FlatList>
+        {/* </SafeAreaView> */}
+
+        {/* <Post
+          way={require("../assets/images/sky.jpg")}
+          name={"Ліс"}
+          commentsNumber={0}
+          country={"Ivano-Frankivs'k Region, Ukraine"}
+        />
+        <Post
+          way={require("../assets/images/sunset.jpg")}
+          name={"Захід на Чорному морі"}
+          commentsNumber={0}
+          country={"Ukraine"}
+        />
+        <Post
+          way={require("../assets/images/house.jpg")}
+          name={"Старий будиночок у Венеції"}
+          commentsNumber={0}
+          country={"Ukraine"}
+        /> */}
       </View>
     </ScrollView>
   );
